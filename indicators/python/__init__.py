@@ -10,20 +10,20 @@ Financial Technical Indicators Python Library
 """
 
 # 趋势指标
-from .trend.moving_averages import MovingAverages
-from .trend.macd import MACD
+from trend.moving_averages import MovingAverages
+from trend.macd import MACD
 
 # 动量指标
-from .momentum.rsi import RSI
-from .momentum.kdj import KDJ
-from .momentum.williams_r import WilliamsR
+from momentum.rsi import RSI
+from momentum.kdj import KDJ
+from momentum.williams_r import WilliamsR
 
 # 波动率指标
-from .volatility.bollinger_bands import BollingerBands
-from .volatility.atr import ATR
+from volatility.bollinger_bands import BollingerBands
+from volatility.atr import ATR
 
 # 成交量指标
-from .volume.obv import OBV
+from volume.obv import OBV
 
 # 版本信息
 __version__ = "1.0.0"
