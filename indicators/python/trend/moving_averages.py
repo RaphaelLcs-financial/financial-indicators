@@ -17,7 +17,32 @@ class MovingAverages:
     """移动平均线指标集合"""
 
     def __init__(self):
-        pass
+        self.name = "Moving Averages"
+        self.category = "trend"
+
+    @staticmethod
+    def calculate(prices: Union[List[float], pd.Series], period: int = 20, ma_type: str = 'sma') -> pd.Series:
+        """
+        计算移动平均线 (统一接口)
+
+        参数:
+            prices: 价格序列
+            period: 计算周期，默认20
+            ma_type: 移动平均类型 ('sma', 'ema', 'wma', 'hma')
+
+        返回:
+            移动平均值序列
+        """
+        if ma_type.lower() == 'sma':
+            return MovingAverages.sma(prices, period)
+        elif ma_type.lower() == 'ema':
+            return MovingAverages.ema(prices, period)
+        elif ma_type.lower() == 'wma':
+            return MovingAverages.wma(prices, period)
+        elif ma_type.lower() == 'hma':
+            return MovingAverages.hma(prices, period)
+        else:
+            return MovingAverages.sma(prices, period)  # 默认使用SMA
 
     @staticmethod
     def sma(prices: Union[List[float], pd.Series], period: int = 20) -> pd.Series:

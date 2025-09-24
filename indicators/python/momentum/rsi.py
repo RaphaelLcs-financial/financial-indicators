@@ -37,9 +37,15 @@ class RSI:
         gain = delta.where(delta > 0, 0)
         loss = -delta.where(delta < 0, 0)
 
-        # 计算平均收益和平均损失
+        # 使用Wilder的平滑方法计算平均收益和平均损失
+        # 第一个值使用简单移动平均
         avg_gain = gain.rolling(window=period).mean()
         avg_loss = loss.rolling(window=period).mean()
+
+        # 从第period+1个值开始使用Wilder平滑
+        for i in range(period, len(gain)):
+            avg_gain.iloc[i] = (avg_gain.iloc[i-1] * (period - 1) + gain.iloc[i]) / period
+            avg_loss.iloc[i] = (avg_loss.iloc[i-1] * (period - 1) + loss.iloc[i]) / period
 
         # 计算相对强度
         rs = avg_gain / avg_loss

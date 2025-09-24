@@ -47,7 +47,7 @@ class QQE:
 
     @staticmethod
     def calculate(high: Union[List[float], pd.Series],
-                  low: Union[List[float], pd.Series]],
+                  low: Union[List[float], pd.Series],
                   close: Union[List[float], pd.Series],
                   rsi_period: int = 14,
                   smooth_period: int = 5,

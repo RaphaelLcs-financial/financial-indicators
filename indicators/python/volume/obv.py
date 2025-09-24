@@ -13,7 +13,8 @@ class OBV:
     """能量潮指标"""
 
     def __init__(self):
-        pass
+        self.name = "On Balance Volume"
+        self.category = "volume"
 
     @staticmethod
     def calculate(prices: Union[List[float], pd.Series],

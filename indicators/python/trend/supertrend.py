@@ -46,7 +46,11 @@ class Supertrend:
         tr3 = abs(low - prev_close)
 
         tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
+
+        # 使用Wilder平滑计算ATR
         atr = tr.rolling(window=period).mean()
+        for i in range(period, len(tr)):
+            atr.iloc[i] = (atr.iloc[i-1] * (period - 1) + tr.iloc[i]) / period
 
         return atr
 
@@ -80,24 +84,30 @@ class Supertrend:
         atr = Supertrend.atr(high, low, close, period)
 
         # 计算基本轨道
+        hl2 = (high + low) / 2
+        basic_upperband = hl2 + (multiplier * atr)
+        basic_lowerband = hl2 - (multiplier * atr)
+
+        # 计算最终轨道
         final_upperband = pd.Series(0.0, index=close.index)
         final_lowerband = pd.Series(0.0, index=close.index)
 
         for i in range(len(close)):
             if i == 0:
-                final_upperband.iloc[i] = (high.iloc[i] + low.iloc[i]) / 2 + (multiplier * atr.iloc[i])
-                final_lowerband.iloc[i] = (high.iloc[i] + low.iloc[i]) / 2 - (multiplier * atr.iloc[i])
+                final_upperband.iloc[i] = basic_upperband.iloc[i]
+                final_lowerband.iloc[i] = basic_lowerband.iloc[i]
             else:
-                if atr.iloc[i] == 0:
-                    final_upperband.iloc[i] = final_upperband.iloc[i-1]
-                    final_lowerband.iloc[i] = final_lowerband.iloc[i-1]
+                # 上轨调整逻辑
+                if basic_upperband.iloc[i] < final_upperband.iloc[i-1] or close.iloc[i-1] > final_upperband.iloc[i-1]:
+                    final_upperband.iloc[i] = basic_upperband.iloc[i]
                 else:
-                    final_upperband.iloc[i] = (high.iloc[i] + low.iloc[i]) / 2 + (multiplier * atr.iloc[i])
-                    final_lowerband.iloc[i] = (high.iloc[i] + low.iloc[i]) / 2 - (multiplier * atr.iloc[i])
+                    final_upperband.iloc[i] = final_upperband.iloc[i-1]
 
-                    # 轨道调整逻辑
-                    if final_upperband.iloc[i] < final_upperband.iloc[i-1] or close.iloc[i-1] > final_upperband.iloc[i-1]:
-                        final_upperband.iloc[i] = final_upperband.iloc[i-1]
+                # 下轨调整逻辑
+                if basic_lowerband.iloc[i] > final_lowerband.iloc[i-1] or close.iloc[i-1] < final_lowerband.iloc[i-1]:
+                    final_lowerband.iloc[i] = basic_lowerband.iloc[i]
+                else:
+                    final_lowerband.iloc[i] = final_lowerband.iloc[i-1]
 
                     if final_lowerband.iloc[i] > final_lowerband.iloc[i-1] or close.iloc[i-1] < final_lowerband.iloc[i-1]:
                         final_lowerband.iloc[i] = final_lowerband.iloc[i-1]
@@ -120,10 +130,20 @@ class Supertrend:
                     else:
                         supertrend.iloc[i] = final_lowerband.iloc[i]
 
+        # 计算趋势信号
+        trend = pd.Series(1, index=close.index)  # 1=上升趋势, -1=下降趋势
+
+        for i in range(len(close)):
+            if supertrend.iloc[i] == final_upperband.iloc[i]:
+                trend.iloc[i] = -1  # 下降趋势
+            else:
+                trend.iloc[i] = 1   # 上升趋势
+
         return {
             'upperband': final_upperband,
             'lowerband': final_lowerband,
             'supertrend': supertrend,
+            'trend': trend,
             'atr': atr
         }
 

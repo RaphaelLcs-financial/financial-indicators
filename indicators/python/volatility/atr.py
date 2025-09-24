@@ -13,7 +13,8 @@ class ATR:
     """平均真实范围指标"""
 
     def __init__(self):
-        pass
+        self.name = "Average True Range"
+        self.category = "volatility"
 
     @staticmethod
     def calculate(high: Union[List[float], pd.Series],
@@ -47,8 +48,13 @@ class ATR:
         # 真实范围是三个值中的最大值
         tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
 
-        # 计算ATR（真实范围的移动平均）
+        # 计算ATR（使用Wilder的平滑方法）
+        # 第一个值使用简单移动平均
         atr = tr.rolling(window=period).mean()
+
+        # 从第period+1个值开始使用Wilder平滑
+        for i in range(period, len(tr)):
+            atr.iloc[i] = (atr.iloc[i-1] * (period - 1) + tr.iloc[i]) / period
 
         return atr
 

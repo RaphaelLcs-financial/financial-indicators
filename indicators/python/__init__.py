@@ -9,31 +9,43 @@ Financial Technical Indicators Python Library
 - 成交量指标 (Volume Indicators)
 """
 
-# 趋势指标
-from trend.moving_averages import MovingAverages
-from trend.macd import MACD
-from trend.supertrend import Supertrend
-from trend.hma import HMA
-from trend.vortex import Vortex
-from trend.adx import ADX
+# 暂时注释掉所有导入，避免循环导入问题
+# 指标将通过动态导入的方式加载
 
-# 动量指标
-from momentum.rsi import RSI
-from momentum.kdj import KDJ
-from momentum.williams_r import WilliamsR
-from momentum.tmo import TMO
-from momentum.woodies_cci import WoodiesCCI
-from momentum.qqe import QQE
-from momentum.fisher_transform import FisherTransform
-from momentum.ultimate_oscillator import UltimateOscillator
+# # 趋势指标
+# from .trend.moving_averages import MovingAverages
+# from .trend.macd import MACD
+# from .trend.supertrend import Supertrend
+# from .trend.hma import HMA
+# from .trend.vortex import Vortex
+# from .trend.adx import ADX
 
-# 波动率指标
-from volatility.bollinger_bands import BollingerBands
-from volatility.atr import ATR
+# # 动量指标
+# from .momentum.rsi import RSI
+# from .momentum.kdj import KDJ
+# from .momentum.williams_r import WilliamsR
+# from .momentum.tmo import TMO
+# from .momentum.woodies_cci import WoodiesCCI
+# from .momentum.qqe import QQE
+# from .momentum.fisher_transform import FisherTransform
+# from .momentum.ultimate_oscillator import UltimateOscillator
+# from .momentum.stochastic_rsi import StochasticRSI
+# from .momentum.cci import CCI
+# from .momentum.deep_learning_momentum import DeepLearningMomentum
 
-# 成交量指标
-from volume.obv import OBV
-from volume.chaikin_money_flow import ChaikinMoneyFlow
+# # 波动率指标
+# from .volatility.bollinger_bands import BollingerBands
+# from .volatility.atr import ATR
+# from .volatility.ml_volatility_band import MLVolatilityBand
+
+# # 成交量指标
+# from .volume.obv import OBV
+# from .volume.chaikin_money_flow import ChaikinMoneyFlow
+# from .volume.mfi import MFI
+# from .volume.force_index import ForceIndex
+
+# # 形态识别指标
+# from .pattern.quantitative_candlestick import QuantitativeCandlestick
 
 # 版本信息
 __version__ = "1.0.0"
@@ -59,22 +71,31 @@ __all__ = [
     'QQE',
     'FisherTransform',
     'UltimateOscillator',
+    'StochasticRSI',
+    'CCI',
+    'DeepLearningMomentum',
 
     # 波动率指标
     'BollingerBands',
     'ATR',
+    'MLVolatilityBand',
 
     # 成交量指标
     'OBV',
     'ChaikinMoneyFlow',
+    'MFI',
+    'ForceIndex',
+
+    # 形态识别指标
+    'QuantitativeCandlestick',
 ]
 
 # 指标分类
 INDICATOR_CATEGORIES = {
     'trend': ['MovingAverages', 'MACD', 'Supertrend', 'HMA', 'Vortex', 'ADX'],
-    'momentum': ['RSI', 'KDJ', 'WilliamsR', 'TMO', 'WoodiesCCI', 'QQE', 'FisherTransform', 'UltimateOscillator'],
-    'volatility': ['BollingerBands', 'ATR'],
-    'volume': ['OBV', 'ChaikinMoneyFlow']
+    'momentum': ['RSI', 'KDJ', 'WilliamsR', 'TMO', 'WoodiesCCI', 'QQE', 'FisherTransform', 'UltimateOscillator', 'StochasticRSI', 'CCI', 'DeepLearningMomentum'],
+    'volatility': ['BollingerBands', 'ATR', 'MLVolatilityBand'],
+    'volume': ['OBV', 'ChaikinMoneyFlow', 'MFI', 'ForceIndex']
 }
 
 # 指标描述
@@ -96,14 +117,22 @@ INDICATOR_DESCRIPTIONS = {
     'QQE': '定量定性估计指标，RSI的改良版，结合RSI和ATR',
     'FisherTransform': '费雪变换，将价格转换为高斯正态分布的数学变换',
     'UltimateOscillator': '终极振荡器，结合多个时间框架的动量指标',
+    'StochasticRSI': '随机RSI，结合RSI和随机指标优势的复合指标',
+    'CCI': '商品通道指数，识别价格偏离统计常态的动量指标',
 
     # 波动率指标
     'BollingerBands': '布林带，波动性指标，三条轨道线组成',
     'ATR': '平均真实范围，波动性指标，衡量市场波动性',
+    'MLVolatilityBand': '机器学习波动带，基于机器学习算法的自适应波动性指标',
 
     # 成交量指标
     'OBV': '能量潮，成交量指标，通过成交量累积预测价格走势',
-    'ChaikinMoneyFlow': '蔡金资金流，结合价格和成交量的资金流指标'
+    'ChaikinMoneyFlow': '蔡金资金流，结合价格和成交量的资金流指标',
+    'MFI': '资金流量指数，成交量加权的RSI，识别超买超卖',
+    'ForceIndex': '强力指数，结合价格变化和成交量的动量指标',
+
+    # 形态识别指标
+    'QuantitativeCandlestick': '定量K线形态识别，基于机器学习的K线形态定量分析系统'
 }
 
 def get_all_indicators():

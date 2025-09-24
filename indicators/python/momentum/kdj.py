@@ -53,8 +53,10 @@ class KDJ:
         for i in range(k_period, len(close)):
             k_values.iloc[i] = (2 * k_values.iloc[i-1] + rsv.iloc[i]) / 3
 
-        # 计算D值（K值的移动平均）
-        d_values = k_values.rolling(window=d_period).mean()
+        # 计算D值（K值的指数移动平均）
+        d_values = pd.Series(50.0, index=close.index)  # 初始化D值为50
+        for i in range(k_period, len(close)):
+            d_values.iloc[i] = (2 * d_values.iloc[i-1] + k_values.iloc[i]) / 3
 
         # 计算J值
         j_values = 3 * k_values - 2 * d_values

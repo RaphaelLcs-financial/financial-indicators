@@ -84,7 +84,14 @@ financial-indicators/
 - 🔄 标准差 - 计划中
 - 🔄 历史波动率 - 计划中
 
-## 🔥 最新更新 (v1.1.0) - 最新指标收集
+## 🔥 最新更新 (v2.0.0) - 统一回测系统上线！
+
+### 🎯 核心新功能
+- **🚀 统一回测引擎** - 任意指标一键转换为交易策略
+- **🌍 多市场数据源** - 支持A股、期货、外汇、加密货币四大市场
+- **📊 完整性能分析** - 自动计算30+项回测指标
+- **📈 专业可视化** - 权益曲线、回撤分析、交易统计等图表
+- **⚡ 简单易用** - 导入指标即可回测，无需复杂配置
 
 ### 🆕 新增最新指标
 - **TMO (True Momentum Oscillator)** - 2020年后流行的真实动量振荡器
@@ -93,25 +100,23 @@ financial-indicators/
 - **Vortex Indicator (涡旋指标)** - 较新的趋势识别指标
 - **Woodie's CCI** - 传统CCI的变种，不同参数和解释方法
 
-### 🌐 多语言支持
-- ✅ **Python实现** - 16个专业指标
-- 🔄 **JavaScript实现** - 暂时移除，专注Python
-- 🔄 **TradingView Pine Script** - 计划中
-- 🔄 **R语言实现** - 计划中
+### 🌐 多市场数据支持
+- ✅ **A股市场** - akshare数据源，支持前复权
+- ✅ **期货市场** - 主力合约数据，自动换月
+- ✅ **外汇市场** - 主要货币对，24小时数据
+- ✅ **加密货币** - 主流数字货币，实时价格
 
-### 🔬 高级功能
-- **自适应指标** - 根据市场波动性自动调整参数
-- **多时间框架确认** - 提高信号准确性
-- **波动率过滤** - 降低假信号
-- **背离分析** - 识别潜在反转点
-- **失败摆动检测** - 提前预警趋势反转
+### 🔬 回测系统特性
+- **真实交易成本** - 手续费、滑点、冲击成本模拟
+- **风险管理** - 止损止盈、仓位管理、资金管理
+- **多策略对比** - 同时回测多个策略并对比分析
+- **参数优化** - 支持策略参数的批量测试优化
+- **样本外验证** - 训练集优化，测试集验证
 
-### 指标特性
-- ✅ **最新指标收集** - 专注2020年后流行的指标
-- ✅ **多语言实现** - Python + JavaScript
-- ✅ **完整策略系统** - 包含信号生成和风险管理
-- ✅ **实战验证** - 每个指标都经过测试验证
-- ✅ **中文技术文档** - 详细的实现原理和使用方法
+### 📊 性能指标体系
+- **收益指标**: 总收益率、年化收益率、夏普比率、索提诺比率
+- **风险指标**: 最大回撤、波动率、VaR、CVaR、贝塔系数
+- **交易指标**: 胜率、盈利因子、平均盈亏、连续盈亏次数
 
 ## 🚀 快速开始
 
@@ -120,22 +125,74 @@ financial-indicators/
 pip install -r requirements.txt
 ```
 
-### 使用示例
+### 基础指标使用
 ```python
-from indicators.trend import SMA, EMA
-from indicators.momentum import RSI
-from data.fetchers import YahooFinanceFetcher
+from indicators.python.trend.moving_averages import MovingAverages
+from indicators.python.momentum.rsi import RSI
+from data.fetchers.unified_fetcher import UnifiedDataFetcher
 
 # 获取数据
-fetcher = YahooFinanceFetcher()
-data = fetcher.fetch('AAPL', period='1y')
+fetcher = UnifiedDataFetcher()
+data = fetcher.fetch_data('BTC-USD', 'crypto', period='1y')
 
 # 计算指标
-sma = SMA(data['close'], period=20)
-rsi = RSI(data['close'], period=14)
+sma = MovingAverages.sma(data['close'], period=20)
+rsi = RSI.calculate(data['close'], period=14)
 
 print(f"SMA(20): {sma.iloc[-1]:.2f}")
 print(f"RSI(14): {rsi.iloc[-1]:.2f}")
+```
+
+### 🎯 统一回测系统 - 核心特性！
+
+**一键导入，即刻回测！** 任何指标都可以快速转换为交易策略进行回测：
+
+```python
+from backtesting.engines.simple_backtest_engine import SimpleBacktestEngine
+from backtesting.engines.strategy_base import StrategyBase
+
+# 创建简单RSI策略
+class RSIStrategy(StrategyBase):
+    def generate_signals(self, data):
+        rsi = RSI.calculate(data['close'], 14)
+        signals = pd.Series(0, index=data.index)
+        signals[rsi < 30] = 1   # 超卖买入
+        signals[rsi > 70] = -1  # 超买卖出
+        return signals
+
+# 一键回测
+engine = SimpleBacktestEngine(initial_capital=100000)
+results = engine.run_backtest(data, RSIStrategy())
+
+print(f"总收益率: {results['total_return_pct']:.2f}%")
+print(f"夏普比率: {results['sharpe_ratio']:.3f}")
+print(f"最大回撤: {results['max_drawdown']*100:.2f}%")
+```
+
+### 🌍 多市场支持
+```python
+# A股回测
+stock_data = fetcher.fetch_data('000001', 'stock', period='2y')
+
+# 外汇回测
+forex_data = fetcher.fetch_data('EURUSD=X', 'forex', period='2y')
+
+# 加密货币回测
+crypto_data = fetcher.fetch_data('BTC-USD', 'crypto', period='2y')
+
+# 期货回测
+futures_data = fetcher.fetch_data('RB2401', 'futures', period='1y')
+```
+
+### 📊 完整回测示例
+查看 `docs/examples/` 目录获取完整示例：
+
+```bash
+# 运行简单RSI策略回测
+python docs/examples/simple_rsi_strategy.py
+
+# 运行多指标组合策略回测
+python docs/examples/multi_indicator_strategy.py
 ```
 
 ## 🤝 贡献指南
