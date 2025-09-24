@@ -10,22 +10,18 @@
 """
 
 from .vwap import VWAP
-from .supertrend import Supertrend
-from .qqe import QQE
-from .hma import HullMovingAverage
 from .mfi import MoneyFlowIndex
-from .keltner_channel import KeltnerChannel
+from .volume_profile import VolumeProfile
+from .ichimoku_cloud import IchimokuCloud
 from .fisher_transform import FisherTransform
 from .donchian_channel import DonchianChannel
 from .multi_timeframe_rsi import MultiTimeframeRSI
 
 __all__ = [
     'VWAP',
-    'Supertrend',
-    'QQE',
-    'HullMovingAverage',
     'MoneyFlowIndex',
-    'KeltnerChannel',
+    'VolumeProfile',
+    'IchimokuCloud',
     'FisherTransform',
     'DonchianChannel',
     'MultiTimeframeRSI'
