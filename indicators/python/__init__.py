@@ -12,11 +12,20 @@ Financial Technical Indicators Python Library
 # 趋势指标
 from trend.moving_averages import MovingAverages
 from trend.macd import MACD
+from trend.supertrend import Supertrend
+from trend.hma import HMA
+from trend.vortex import Vortex
+from trend.adx import ADX
 
 # 动量指标
 from momentum.rsi import RSI
 from momentum.kdj import KDJ
 from momentum.williams_r import WilliamsR
+from momentum.tmo import TMO
+from momentum.woodies_cci import WoodiesCCI
+from momentum.qqe import QQE
+from momentum.fisher_transform import FisherTransform
+from momentum.ultimate_oscillator import UltimateOscillator
 
 # 波动率指标
 from volatility.bollinger_bands import BollingerBands
@@ -24,6 +33,7 @@ from volatility.atr import ATR
 
 # 成交量指标
 from volume.obv import OBV
+from volume.chaikin_money_flow import ChaikinMoneyFlow
 
 # 版本信息
 __version__ = "1.0.0"
@@ -35,11 +45,20 @@ __all__ = [
     # 趋势指标
     'MovingAverages',
     'MACD',
+    'Supertrend',
+    'HMA',
+    'Vortex',
+    'ADX',
 
     # 动量指标
     'RSI',
     'KDJ',
     'WilliamsR',
+    'TMO',
+    'WoodiesCCI',
+    'QQE',
+    'FisherTransform',
+    'UltimateOscillator',
 
     # 波动率指标
     'BollingerBands',
@@ -47,26 +66,44 @@ __all__ = [
 
     # 成交量指标
     'OBV',
+    'ChaikinMoneyFlow',
 ]
 
 # 指标分类
 INDICATOR_CATEGORIES = {
-    'trend': ['MovingAverages', 'MACD'],
-    'momentum': ['RSI', 'KDJ', 'WilliamsR'],
+    'trend': ['MovingAverages', 'MACD', 'Supertrend', 'HMA', 'Vortex', 'ADX'],
+    'momentum': ['RSI', 'KDJ', 'WilliamsR', 'TMO', 'WoodiesCCI', 'QQE', 'FisherTransform', 'UltimateOscillator'],
     'volatility': ['BollingerBands', 'ATR'],
-    'volume': ['OBV']
+    'volume': ['OBV', 'ChaikinMoneyFlow']
 }
 
 # 指标描述
 INDICATOR_DESCRIPTIONS = {
+    # 趋势指标
     'MovingAverages': '移动平均线指标集合，包括SMA、EMA、WMA、HMA等',
     'MACD': '移动平均收敛发散指标，趋势跟踪动量指标',
+    'Supertrend': '超级趋势指标，结合ATR和价格趋势的创新指标',
+    'HMA': '赫尔移动平均线，显著减少滞后性的创新移动平均线',
+    'Vortex': '涡旋指标，较新的趋势识别指标，识别趋势开始和反转',
+    'ADX': '平均趋向指数，趋势强度指标，衡量价格趋势的强度',
+
+    # 动量指标
     'RSI': '相对强弱指数，动量指标，识别超买超卖',
     'KDJ': '随机指标，动量指标，比较收盘价与价格范围',
     'WilliamsR': '威廉指标，动量指标，衡量超买超卖状态',
+    'TMO': '真实动量振荡器，2020年后流行的创新动量指标',
+    'WoodiesCCI': '伍迪商品通道指数，传统CCI的变种，不同参数和解释',
+    'QQE': '定量定性估计指标，RSI的改良版，结合RSI和ATR',
+    'FisherTransform': '费雪变换，将价格转换为高斯正态分布的数学变换',
+    'UltimateOscillator': '终极振荡器，结合多个时间框架的动量指标',
+
+    # 波动率指标
     'BollingerBands': '布林带，波动性指标，三条轨道线组成',
     'ATR': '平均真实范围，波动性指标，衡量市场波动性',
-    'OBV': '能量潮，成交量指标，通过成交量累积预测价格走势'
+
+    # 成交量指标
+    'OBV': '能量潮，成交量指标，通过成交量累积预测价格走势',
+    'ChaikinMoneyFlow': '蔡金资金流，结合价格和成交量的资金流指标'
 }
 
 def get_all_indicators():

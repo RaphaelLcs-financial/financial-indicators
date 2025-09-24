@@ -55,8 +55,9 @@ financial-indicators/
 - ✅ **HMA (赫尔移动平均线)** - 创新移动平均线，显著减少滞后性
 - ✅ **Supertrend (超级趋势)** - 结合ATR的趋势跟踪指标，2020年后流行
 - ✅ **MACD** - 移动平均收敛发散指标，包含信号线和直方图
-- ✅ **Vortex Indicator (涡旋指标)** - 较新的趋势识别指标 (JavaScript实现)
-- 🔄 布林带 (Bollinger Bands) - 计划中
+- ✅ **Vortex Indicator (涡旋指标)** - 较新的趋势识别指标
+- ✅ **ADX (平均趋向指数)** - 趋势强度指标，衡量价格趋势强度
+- 🔄 布林带 (Bollinger Bands) - 已完成 (归入波动率指标)
 - 🔄 抛物线SAR (Parabolic SAR) - 计划中
 
 ### 📈 动量指标 (Momentum Indicators)
@@ -64,11 +65,15 @@ financial-indicators/
 - ✅ **KDJ** - 随机指标，多时间框架分析
 - ✅ **Williams %R** - 威廉指标，失败摆动检测
 - ✅ **TMO (True Momentum Oscillator)** - 真实动量振荡器，较新的动量指标
-- ✅ **Woodie's CCI** - 伍迪商品通道指数，传统CCI变种 (JavaScript实现)
+- ✅ **Woodie's CCI** - 伍迪商品通道指数，传统CCI变种
+- ✅ **QQE (定量定性估计)** - RSI的改良版，结合RSI和ATR
+- ✅ **Fisher Transform (费雪变换)** - 将价格转换为高斯正态分布
+- ✅ **Ultimate Oscillator (终极振荡器)** - 多时间框架动量指标
 - 🔄 CCI (商品通道指数) - 计划中
 
 ### 📊 成交量指标 (Volume Indicators)
 - ✅ **OBV** - 能量潮指标，加权OBV实现
+- ✅ **Chaikin Money Flow (蔡金资金流)** - 结合价格和成交量的资金流指标
 - 🔄 成交量移动平均 - 计划中
 - 🔄 A/D Line (累积/派发线) - 计划中
 - 🔄 MFI (资金流量指数) - 计划中
@@ -89,8 +94,8 @@ financial-indicators/
 - **Woodie's CCI** - 传统CCI的变种，不同参数和解释方法
 
 ### 🌐 多语言支持
-- ✅ **Python实现** - 11个专业指标
-- ✅ **JavaScript实现** - 2个专业指标
+- ✅ **Python实现** - 16个专业指标
+- 🔄 **JavaScript实现** - 暂时移除，专注Python
 - 🔄 **TradingView Pine Script** - 计划中
 - 🔄 **R语言实现** - 计划中
 
